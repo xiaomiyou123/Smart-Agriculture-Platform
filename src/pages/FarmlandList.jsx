@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Plus, MapPin, Crop, Droplets, MoreVertical, Edit2, Trash2 } from 'lucide-react';
+import { Plus, MapPin, Crop, Droplets, MoreVertical, Edit2, Trash2, Scan } from 'lucide-react';
 import Modal from '../components/Modal';
 import FarmlandForm from '../components/FarmlandForm';
+import AIVisionOverlay from '../components/AIVisionOverlay';
 
 // Mock Data
 const initialFarmlands = [
@@ -34,7 +35,7 @@ const StatusBadge = ({ status }) => {
     );
 };
 
-const FarmlandCard = ({ data, onDelete, onEdit }) => (
+const FarmlandCard = ({ data, onDelete, onEdit, onAnalyze }) => (
     <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <div style={{ height: '160px', overflow: 'hidden', position: 'relative' }}>
             <img
@@ -47,6 +48,32 @@ const FarmlandCard = ({ data, onDelete, onEdit }) => (
             <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
                 <StatusBadge status={data.status} />
             </div>
+            <button
+                onClick={(e) => { e.stopPropagation(); onAnalyze(); }}
+                style={{
+                    position: 'absolute',
+                    bottom: '1rem',
+                    right: '1rem',
+                    backgroundColor: 'rgba(59, 130, 246, 0.9)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '20px',
+                    padding: '0.4rem 0.8rem',
+                    fontSize: '0.8rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    backdropFilter: 'blur(4px)',
+                    transition: 'all 0.2s'
+                }}
+                onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+                <Scan size={14} />
+                AI 诊断
+            </button>
         </div>
 
         <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -129,6 +156,12 @@ const FarmlandList = () => {
         setIsModalOpen(false);
     };
 
+    const [analyzingImage, setAnalyzingImage] = useState(null);
+
+    const handleAnalyze = (image) => {
+        setAnalyzingImage(image);
+    };
+
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -153,6 +186,7 @@ const FarmlandList = () => {
                         data={farm}
                         onDelete={handleDelete}
                         onEdit={handleEdit}
+                        onAnalyze={() => handleAnalyze(farm.image)}
                     />
                 ))}
             </div>
@@ -168,6 +202,13 @@ const FarmlandList = () => {
                     onCancel={() => setIsModalOpen(false)}
                 />
             </Modal>
+
+            {analyzingImage && (
+                <AIVisionOverlay
+                    imageUrl={analyzingImage}
+                    onClose={() => setAnalyzingImage(null)}
+                />
+            )}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import { LayoutDashboard, Tractor, BrainCircuit, ClipboardCheck, Sprout } from '
 const Sidebar = () => {
     const navItems = [
         { path: '/', label: '概览', icon: LayoutDashboard },
-        { path: '/ai-center', label: 'AI 控制中心', icon: BrainCircuit },
+        { path: '/strategy', label: '智能策略', icon: BrainCircuit },
         { path: '/farmlands', label: '智能农田', icon: Tractor },
         { path: '/tasks', label: '任务调度', icon: ClipboardCheck },
         { path: '/market', label: '知识资产', icon: Sprout },

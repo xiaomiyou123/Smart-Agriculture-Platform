@@ -1,11 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Tractor } from 'lucide-react';
+import { LayoutDashboard, Tractor, BrainCircuit, ClipboardCheck, Sprout } from 'lucide-react';
 
 const Sidebar = () => {
     const navItems = [
         { path: '/', label: '概览', icon: LayoutDashboard },
-        { path: '/farmlands', label: '农田管理', icon: Tractor },
+        { path: '/ai-center', label: 'AI 控制中心', icon: BrainCircuit },
+        { path: '/farmlands', label: '智能农田', icon: Tractor },
+        { path: '/tasks', label: '任务调度', icon: ClipboardCheck },
+        { path: '/market', label: '知识资产', icon: Sprout },
     ];
 
     return (
